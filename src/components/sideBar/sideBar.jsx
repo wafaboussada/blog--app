@@ -5,7 +5,8 @@ export default function SideBar() {
     <div className="sideBar">
       <div className="sideBarItem">
         <span className="sideBarTitle">ABOUT US</span>
-        <img src="" alt="" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlIvYG1V5lJgzra_T_ElHk0cCm1jrVFvcUqw&usqp=CAU"
+        alt="" />
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius totam id
           ratione accusantium iusto omnis similique error, nam magni
@@ -27,9 +28,9 @@ export default function SideBar() {
       <div className="sidebarItem">
         <span className="sideBarTitle">FOLLOW US</span>
         <div className="sideBarSocial">
-          <i class="fa-brands fa-square-facebook"></i>
-          <i class="fa-brands fa-square-twitter"></i>
-          <i class="fa-brands fa-square-instagram"></i>
+          <i className="sideBarIcon fa-brands fa-square-facebook"></i>
+          <i className="sideBarIcon fa-brands fa-square-twitter"></i>
+          <i className="sideBarIcon fa-brands fa-square-instagram"></i>
         </div>
       </div>
     </div>
