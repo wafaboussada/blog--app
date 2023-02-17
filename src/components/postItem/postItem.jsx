@@ -1,23 +1,99 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import './postItem.css';
+import { Context } from '../../store/context';
 export default function PostItem() {
+  const { user } = useContext(Context);
+  const [post, setPost] = useState({})
+  const [updating, setUpdating] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const location = useLocation();
+  console.log(location);
+  const path = location.pathname.split("/")[2];
+  console.log(path);
+  useEffect(() => {
+    const getPost = async () => {
+      const res = await axios.get("/posts/" + path);
+      console.log(res);
+      setPost(res.data);
+      setTitle(res.data.title);
+      setDescription(res.data.description);
+    }
+    getPost();
+  }, [])
+  const handleDelete = async() => {
+    try {
+      await axios.delete("/posts/" + path, {
+      data: {username: user.username}
+    });
+    window.location.replace('/');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const handleUpdate = () => {
+    setUpdating(true);
+  }
+  const handleUpdatePost = async () => {
+    try {
+      await axios.put("/posts/" + path,  {
+        username: user.username,
+        title,
+        description
+      })
+      setUpdating(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const imagePath = "http://localhost:5000/images/";
   return (
     <div className='singlePost'>
       <div>
-        <img src="" alt="" />
-        <h1>Lorem ipsum dolor sit amet</h1>
+        {post.picture && (
+        <img src={imagePath + post.picture} alt="" />
+        )}
+        {updating ? (
+          <input 
+          type="text" 
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          />
+        ):
+        (
+          <h1>{title}</h1>
+        )
+        }
+        {user.username === post.username && (
         <div>
-            <i class="fa-regular fa-pen-to-square"></i>
-            <i class="fa-regular fa-trash"></i>
+            <i className="fa-regular fa-pen-to-square" onClick={handleUpdate}></i>
+            <i className="fa-regular fa-trash" onClick={handleDelete}></i>
         </div>
+        )}
         <div>
-            <span>Author: <b>Jean</b></span>
-            <span>1 hour ago</span>
+            <span>Author: 
+              <Link to={`/?username=${post.username}`}>
+                <b>{post.username}</b>
+              </Link>
+              </span>
+            <span>{new Date(post.createdAt).toDateString()}</span>
         </div>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Sed modi quisquam laboriosam ab veritatis corrupti cupiditate
-            saepe dolores, veniam dolorum aspernatur. Tenetur quod dolor maiores
-            quibusdam aut reiciendis labore consequuntur.</p>
+        {updating ? (
+          <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          />
+        ):
+        (
+          <p>{description}</p>
+        )
+        }
+        {updating && (
+        <button onClick={handleUpdatePost}>Update</button>
+        )}
       </div>
     </div>
   )

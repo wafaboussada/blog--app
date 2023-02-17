@@ -1,21 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './post.css';
-export default function Post() {
+export default function Post(props) {
+  console.log(new Date(props.post.createdAt).toDateString());
+  const imagePath = "http://localhost:5000/images/";
   return (
     <div className='post'>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0GqoH701nloirqAMyQ6J4HO7QbRGHXJ2bXA&usqp=CAU" alt="" />
+      {props.post.picture && (
+      <img src={imagePath + props.post.picture} alt="" />
+      )}
       <div className="postInfo">
         <div className="postCats">
-            <span className="postCat">Music</span>
-            <span className="postCat">Life</span>
+          {props.post.categories.map(cat => (
+            <span key={cat} className="postCat">{cat}</span>
+          ))}
         </div>
-        <span className="postTitle">Lorem ipsum dolor sit amet</span>
-        <span className="postDate">1 hour ago</span>
+        <Link
+          className='link'
+          to={`/post/${props.post._id}`}
+        >
+        <span className="postTitle">{props.post.title}</span>
+        </Link>
+        <span className="postDate">{new Date(props.post.createdAt).toDateString()}</span>
       </div>
-      <p className='postDescription'>Lorem ipsum dolor sit amet,
-      consectetur adipisicing elit. Ab aliquam expedita reiciendis
-      delectus optio dolore ipsa. Quae ipsam aut tempore iste porro! Ea
-      veniam odio eligendi nihil delectus aliquam enim!</p>
+      <p className='postDescription'>{props.post.description}</p>
     </div>
   )
 }

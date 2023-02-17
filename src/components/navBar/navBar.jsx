@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { LogOut } from "../../store/actions";
+import { Context } from "../../store/context";
 import "./navBar.css";
 export default function NavBar() {
-  const isUserConnected = true;
+  const { user, dispatch } = useContext(Context);
+  console.log('user navbar', user);
+  const isUserConnected = false;
+  const handleLogOut = () => {
+    console.log("log out");
+    dispatch(LogOut());
+  }
+  console.log(user && true);
   return (
     <div className="top">
       <div className="topCenter">
@@ -16,7 +25,7 @@ export default function NavBar() {
               HOME
             </Link>
           </li>
-          {!isUserConnected && (
+          {!user._id && (
           <li className="topListItem">
           <Link
               // style={{textDecoration: "none", color: "inherit"}}
@@ -27,7 +36,7 @@ export default function NavBar() {
             </Link>
           </li>
           )}
-          {!isUserConnected && (
+          {!user._id  && (
           <li className="topListItem">
           <Link
               // style={{textDecoration: "none", color: "inherit"}}
@@ -40,7 +49,7 @@ export default function NavBar() {
           )}
           {/* <li className='topListItem'>ABOUT</li>
             <li className='topListItem'>CONTACT</li> */}
-          {isUserConnected && (
+          {user._id && (
           <li className="topListItem">
           <Link
               // style={{textDecoration: "none", color: "inherit"}}
@@ -51,7 +60,9 @@ export default function NavBar() {
             </Link>
           </li>
           )}
-          <li className="topListItem">LOGOUT</li>
+          {user._id && (
+            <li className="topListItem" onClick={handleLogOut}>LOGOUT</li>
+          )}
         </ul>
       </div>
       <div className="topRight">
