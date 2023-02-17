@@ -12,6 +12,7 @@ export default function NavBar() {
     dispatch(LogOut());
   }
   console.log(user && true);
+  const imagePath = "http://localhost:5000/images/";
   return (
     <div className="top">
       <div className="topCenter">
@@ -66,11 +67,15 @@ export default function NavBar() {
         </ul>
       </div>
       <div className="topRight">
+        <Link to='/settings'>
+          {user.picture && (
         <img
           className="topImg"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bWFsZSUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+          src={imagePath + user.picture}
           alt=""
         />
+        )}
+        </Link>
         <i className="topSearchIcon fa-solid fa-magnifying-glass"></i>
       </div>
     </div>

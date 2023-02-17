@@ -25,8 +25,8 @@ function App() {
         {/* <Route path='/login' element={<Login />}/> */}
         <Route path='/login' element={user._id ? <Home /> : <Login />}/>
         {/* <Route path='/write' element={user ? <Write /> : <Register />}/> */}
-        <Route path='/write' element={<Write />}/>
-        <Route path='/settings' element={<Settings />}/>
+        <Route path='/write' element={user._id ? <Write /> : <Login />}/>
+        <Route path='/settings' element={user._id ? <Settings /> : <Login /> }/>
         <Route path='/post/:postId' element={<SinglePost />}/>
       </Routes>
     </Router>

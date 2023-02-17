@@ -50,6 +50,7 @@ export default function PostItem() {
     }
   }
   const imagePath = "http://localhost:5000/images/";
+  console.log("test postitem", post.categories);
   return (
     <div className='singlePost'>
       <div>
@@ -67,6 +68,9 @@ export default function PostItem() {
           <h1>{title}</h1>
         )
         }
+        {post.categories && post.categories.map((cat) => (
+          <p key={cat}>{cat}</p>
+        ))}
         {user.username === post.username && (
         <div>
             <i className="fa-regular fa-pen-to-square" onClick={handleUpdate}></i>
